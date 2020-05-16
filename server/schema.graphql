@@ -1,0 +1,12 @@
+type Entry {
+  id: String!
+}
+
+type Query {
+  entries (search: String!): [Entry!]!
+}
+
+type Mutation {
+  removeEntry (id: String!): String!
+  removeEntryFailed (id: String!): String!
+}

@@ -1,0 +1,3 @@
+mutation removeEntry($id: String!) {
+  removeEntry(id: $id)
+}
