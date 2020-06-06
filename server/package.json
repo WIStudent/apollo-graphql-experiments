@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "devDependencies": {
-    "ts-node": "^8.10.1",
-    "typescript": "^3.9.2"
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
   },
   "dependencies": {
-    "apollo-server": "^2.13.1",
+    "apollo-server": "^2.14.2",
     "graphql": "^15.0.0"
   }
 }

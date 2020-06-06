@@ -51,8 +51,10 @@ async function removeEntryFailed (variables: RemoveEntryFailedVariables, client:
     },
     update (cache) {
       cache.modify({
-        entries(value: Reference[], {readField}) {
-          return value.filter(entry => readField('id', entry) !== variables.id)
+        fields: {
+          entries(value: Reference[], {readField}) {
+            return value.filter(entry => readField('id', entry) !== variables.id)
+          }
         }
       });
       cache.gc();
@@ -69,9 +71,12 @@ async function removeEntry (variables: RemoveEntryVariables, client: ApolloClien
     },
     update (cache) {
       cache.modify({
-        entries(value: Reference[], {readField}) {
-          return value.filter(entry => readField('id', entry) !== variables.id)
-        },
+        fields: {
+          entries(value: Reference[], {readField}) {
+            return value.filter(entry => readField('id', entry) !== variables.id)
+          },
+        }
+        
       });
       cache.gc();
     }

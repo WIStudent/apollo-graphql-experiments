@@ -1,5 +1,5 @@
 # server
 ## How to run
 ```
-npx ts-node index.ts
+$ npx ts-node index.ts
 ```
