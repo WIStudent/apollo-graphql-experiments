@@ -25,6 +25,19 @@ async function queryEntries (variables: EntriesVariables, client: ApolloClient<N
   });
 }
 
+async function queryEntriesFromCache (variables: EntriesVariables, client: ApolloClient<NormalizedCacheObject>): Promise<void> {
+  const {data} = await client.query<Entries, EntriesVariables>({
+    query: entriesQuery,
+    variables,
+    fetchPolicy: 'cache-only'
+  });
+  console.log('');
+  console.log('variables:')
+  console.log(variables)
+  console.log('data:')
+  console.log(data)
+}
+
 function watchQueryEntries (variables: EntriesVariables, client: ApolloClient<NormalizedCacheObject>): void {
   client.watchQuery<Entries, EntriesVariables>({
     query: entriesQuery,
@@ -83,6 +96,17 @@ async function removeEntry (variables: RemoveEntryVariables, client: ApolloClien
   })
 }
 
+function removeCachedEntriesQueries (client: ApolloClient<NormalizedCacheObject>): void {
+  client.cache.modify({
+    fields: {
+      entries() {
+        return undefined;
+      }
+    }
+  });
+  client.cache.gc();
+}
+
 async function wait (ms: number): Promise<void> {
   return new Promise(resolve => {
     setTimeout(resolve, ms);
@@ -117,6 +141,9 @@ async function main(): Promise<void> {
 
   });
 
+  console.log(chalk.blue('query entries from cache'));
+  await queryEntriesFromCache({search: '1'}, client);
+
   console.log(chalk.blue('Setup watchQueries'));
   // Setup cache-only watchQueries
   watchQueryEntries({search: '1'}, client);
@@ -141,9 +168,11 @@ async function main(): Promise<void> {
   console.log(chalk.blue('\nremoveEntryFailed'));
   await removeEntryFailed({id: '2'}, client).catch(() => {});
   logCache(client.cache);
+  await wait(2000);
 
-  console.log(chalk.blue('wait a sec in case something is still happening.'));
-  await wait(1000);
+  console.log(chalk.blue('\nremoveCachedEntriesQueries'))
+  removeCachedEntriesQueries(client);
+  logCache(client.cache);
 }
 
 main();
