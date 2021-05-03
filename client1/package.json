@@ -11,7 +11,7 @@
     "gen-types": "apollo client:codegen --endpoint=http://localhost:4000/ --target=typescript --includes=**/gql/*.gql __gen_gql"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.7",
+    "@apollo/client": "^3.3.16",
     "chalk": "^4.1.0",
     "node-fetch": "^2.6.1"
   }
