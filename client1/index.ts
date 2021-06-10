@@ -26,7 +26,7 @@ async function queryEntries (variables: EntriesVariables, client: ApolloClient<N
 }
 
 async function queryEntriesFromCache (variables: EntriesVariables, client: ApolloClient<NormalizedCacheObject>): Promise<void> {
-  const {data} = await client.query<Entries, EntriesVariables>({
+  const {data, partial} = await client.query<Entries, EntriesVariables>({
     query: entriesQuery,
     variables,
     fetchPolicy: 'cache-only'
@@ -36,6 +36,8 @@ async function queryEntriesFromCache (variables: EntriesVariables, client: Apoll
   console.log(variables)
   console.log('data:')
   console.log(data)
+  console.log('partial:')
+  console.log(partial)
 }
 
 function watchQueryEntries (variables: EntriesVariables, client: ApolloClient<NormalizedCacheObject>): void {
@@ -44,13 +46,15 @@ function watchQueryEntries (variables: EntriesVariables, client: ApolloClient<No
     variables,
     fetchPolicy: 'cache-only'
   }).subscribe({
-    next({data}) {
+    next({data, partial}) {
       console.log('');
       console.log(chalk.magenta('entries watchQuery'));
       console.log('variables:')
       console.log(variables)
       console.log('data:')
       console.log(data)
+      console.log('partial:')
+      console.log(partial)
     }
   });
 }
@@ -89,7 +93,7 @@ async function removeEntry (variables: RemoveEntryVariables, client: ApolloClien
             return value.filter(entry => readField('id', entry) !== variables.id)
           },
         }
-        
+
       });
       cache.gc();
     }
