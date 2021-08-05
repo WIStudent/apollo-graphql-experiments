@@ -16,7 +16,10 @@ async function main() {
   
   const resolvers = {
     Query: {
-      entries: () => entries
+      entries: () => entries.map(({id}) => ({
+        id,
+        value: Math.floor(Math.random() * 100)
+      }))
     },
     Mutation: {
       removeEntry: (_: unknown, {id}: {id: string}) => id,

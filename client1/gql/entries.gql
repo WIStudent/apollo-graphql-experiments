@@ -1,5 +1,6 @@
 query entries ($search: String!) {
   entries(search: $search) {
     id
+    value
   }
 }

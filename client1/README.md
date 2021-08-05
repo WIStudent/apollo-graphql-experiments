@@ -3,6 +3,7 @@
 ```gql
 type Entry {
   id: String!
+  value: Int!
 }
 
 type Query {
