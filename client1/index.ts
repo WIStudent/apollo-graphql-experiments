@@ -13,9 +13,11 @@ inspect.defaultOptions.depth = null;
 
 const uri = 'http://localhost:4000/';
 
-const entriesQuery = gql(readFileSync(resolve(__dirname, 'gql/entries.gql'), 'utf-8'))
-const removeEntryMutation = gql(readFileSync(resolve(__dirname, 'gql/removeEntry.gql'), 'utf-8'))
-const removeEntryFailedMutation = gql(readFileSync(resolve(__dirname, 'gql/removeEntryFailed.gql'), 'utf-8'))
+const getGql = (path: string) => gql(readFileSync(resolve(__dirname, path), 'utf-8'));
+
+const entriesQuery = getGql('gql/entries.gql');
+const removeEntryMutation = getGql('gql/removeEntry.gql');
+const removeEntryFailedMutation = getGql('gql/removeEntryFailed.gql');
 
 async function queryEntries (variables: EntriesVariables, client: ApolloClient<NormalizedCacheObject>): Promise<void> {
   client.query<Entries, EntriesVariables>({

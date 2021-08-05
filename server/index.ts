@@ -8,7 +8,7 @@ async function main() {
 
   const typeDefs = gql(readFileSync(schemaPath, 'utf-8'));
 
-  const entries= [
+  const entries = [
     {id: '1'},
     {id: '2'},
     {id: '3'}
@@ -27,12 +27,8 @@ async function main() {
   };
 
   const logPlugin: ApolloServerPlugin = {
-    requestDidStart(requestContext): void {
-      console.log(`Request started! Query: 
-${requestContext.request.operationName}
-Variables
-${JSON.stringify(requestContext.request.variables)}
-`);
+    async requestDidStart(requestContext): Promise<void> {
+      console.log(`Request started! Query:\n${requestContext.request.operationName}\nVariables\n${JSON.stringify(requestContext.request.variables)}\n`);
     }
   };
   
